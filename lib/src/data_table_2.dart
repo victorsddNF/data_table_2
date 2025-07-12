@@ -188,6 +188,7 @@ class DataTable2 extends DataTable {
     this.sortArrowIconColor,
     this.sortArrowBuilder,
     this.headingRowDecoration,
+    this.dividerColor,
     required super.rows,
   })  : assert(fixedLeftColumns >= 0),
         assert(fixedTopRows >= 0);
@@ -343,6 +344,8 @@ class DataTable2 extends DataTable {
   /// this color is static and doesn't repond to state change
   /// Note: to change background color of fixed data rows use [DataTable2.headingRowColor]
   final Color? fixedCornerColor;
+
+  final Color? dividerColor;
 
   (double, double) getMinMaxRowHeight(DataTableThemeData dataTableTheme) {
     final double effectiveDataRowMinHeight = dataRowHeight ??
@@ -1373,6 +1376,7 @@ class DataTable2 extends DataTable {
 
           final BorderSide borderSide = Divider.createBorderSide(
             context,
+            color: dividerColor,
             width: dividerThickness ??
                 theme.dataTableTheme.dividerThickness ??
                 _dividerThickness,

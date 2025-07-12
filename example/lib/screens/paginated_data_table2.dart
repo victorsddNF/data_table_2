@@ -16,7 +16,28 @@ import '../custom_pager.dart';
 // Changes and modifications by Maxim Saplin, 2021
 
 class PaginatedDataTable2Demo extends StatefulWidget {
-  const PaginatedDataTable2Demo({super.key});
+  const PaginatedDataTable2Demo({
+    super.key,
+    this.tableBorder,
+    this.borderRadius,
+    this.backgroundColor,
+    this.boxShadow,
+    this.dataRowColor,
+    this.dividerColor,
+    this.dividerThickness,
+    this.tablePadding,
+    this.tableMargin,
+  });
+
+  final BoxBorder? tableBorder;
+  final BorderRadiusGeometry? borderRadius;
+  final Color? backgroundColor;
+  final List<BoxShadow>? boxShadow;
+  final WidgetStateProperty<Color?>? dataRowColor;
+  final Color? dividerColor;
+  final double? dividerThickness;
+  final EdgeInsetsGeometry? tablePadding;
+  final EdgeInsetsGeometry? tableMargin;
 
   @override
   PaginatedDataTable2DemoState createState() => PaginatedDataTable2DemoState();
@@ -125,12 +146,20 @@ class PaginatedDataTable2DemoState extends State<PaginatedDataTable2Demo> {
         horizontalMargin: 20,
         checkboxHorizontalMargin: 12,
         columnSpacing: 0,
-        wrapInCard: false,
+        wrapInCard: true, // Enable card wrapping for styling
         renderEmptyRowsInTheEnd: false,
-        headingRowColor:
-            WidgetStateColor.resolveWith((states) => Colors.grey[200]!),
-        header:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        headingRowColor: WidgetStateColor.resolveWith((states) => Colors.green[200]!),
+        dataRowColor: widget.dataRowColor,
+        borderRadius: widget.borderRadius,
+        backgroundColor: widget.backgroundColor,
+        boxShadow: widget.boxShadow,
+        dividerThickness: widget.dividerThickness,
+        tableBorder: widget.tableBorder,
+        dividerColor: Colors.amber,
+        tablePadding: widget.tablePadding,
+        tableMargin: widget.tableMargin,
+        header: 
+         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           const Text('PaginatedDataTable2'),
           if (kDebugMode && getCurrentRouteOption(context) == custPager)
             Row(children: [
@@ -150,12 +179,13 @@ class PaginatedDataTable2DemoState extends State<PaginatedDataTable2Demo> {
         minWidth: 800,
         fit: FlexFit.tight,
         border: TableBorder(
-            top: const BorderSide(color: Colors.black),
-            bottom: BorderSide(color: Colors.grey[300]!),
-            left: BorderSide(color: Colors.grey[300]!),
-            right: BorderSide(color: Colors.grey[300]!),
+            // top: const BorderSide(color: Colors.black),
+            // bottom: BorderSide(color: Colors.grey[300]!),
+            // left: BorderSide(color: Colors.grey[300]!),
+            // right: BorderSide(color: Colors.grey[300]!),
             verticalInside: BorderSide(color: Colors.grey[300]!),
-            horizontalInside: const BorderSide(color: Colors.grey, width: 1)),
+            // horizontalInside: const BorderSide(color: Colors.grey, width: 1)
+          ),
         onRowsPerPageChanged: (value) {
           // No need to wrap into setState, it will be called inside the widget
           // and trigger rebuild

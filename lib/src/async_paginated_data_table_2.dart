@@ -224,7 +224,7 @@ abstract class AsyncDataTableSource extends DataTableSource {
   }
 
   Timer? _debounceTimer;
-  CancelableOperation<AsyncRowsResponse>? _fetchOpp;
+  bool _isFetching = false;
 
   void _debounce(Function f, int milliseconds) {
     _debounceTimer?.cancel();
@@ -237,13 +237,11 @@ abstract class AsyncDataTableSource extends DataTableSource {
   Future _fetchData(int startIndex, int count,
       [bool forceReload = true]) async {
     void fetch() async {
+      if (_isFetching) return;
+      _isFetching = true;
+      
       try {
-        _fetchOpp?.cancel();
-        _fetchOpp = CancelableOperation<AsyncRowsResponse>.fromFuture(
-            getRows(startIndex, count));
-        var data = await _fetchOpp!.value;
-        if (_fetchOpp!.isCanceled) return;
-        //var data = await getRows(startIndex, count);
+        var data = await getRows(startIndex, count);
         _rows = data.rows;
         _totalRows = data.totalRows;
         _firstRowAbsoluteIndex = startIndex;
@@ -255,6 +253,8 @@ abstract class AsyncDataTableSource extends DataTableSource {
         _error = e;
         notifyListeners();
         return;
+      } finally {
+        _isFetching = false;
       }
 
       _state = SourceState.ok;

@@ -10,15 +10,7 @@ import '../data_sources.dart';
 // Changes and modifications by Maxim Saplin, 2021
 
 class PaginatedDataTableDemo extends StatefulWidget {
-  const PaginatedDataTableDemo({super.key, this.tableBorder, this.borderRadius, this.backgroundColor, this.boxShadow, this.dataRowColor, this.dividerColor, this.dividerThickness});
-
-  final BoxBorder? tableBorder;
-  final BorderRadiusGeometry? borderRadius;
-  final Color? backgroundColor;
-  final List<BoxShadow>? boxShadow;
-  final WidgetStateProperty<Color?>? dataRowColor;
-  final Color? dividerColor;
-  final double? dividerThickness;
+  const PaginatedDataTableDemo({super.key});
 
   @override
   PaginatedDataTableDemoState createState() => PaginatedDataTableDemoState();
@@ -124,15 +116,6 @@ class PaginatedDataTableDemoState extends State<PaginatedDataTableDemo>
       padding: const EdgeInsets.all(16),
       children: [
         PaginatedDataTable(
-          columnSpacing: 1,
-          headerFlex: 1,
-          dividerColor: widget.dividerColor,
-          dividerThickness: widget.dividerThickness,
-          dataRowColor: widget.dataRowColor,
-          tableBorder: widget.tableBorder,
-          borderRadius: widget.borderRadius,
-          backgroundColor: widget.backgroundColor,
-          boxShadow: widget.boxShadow,
           header: const Text('PaginatedDataTable'),
           rowsPerPage: _rowsPerPage.value,
           onRowsPerPageChanged: (value) {

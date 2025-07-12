@@ -160,15 +160,10 @@ class MyApp extends StatelessWidget {
             context,
             const DataTable2FixedNMDemo(),
             getOptionsForRoute('/datatable2fixedmn')),
-        '/paginated2': (context) => _getScaffold(context,
-            const PaginatedDataTable2Demo(), getOptionsForRoute('/paginated2')),
-        '/asyncpaginated2': (context) => _getScaffold(
+        '/paginated2': (context) => _getScaffold(
             context,
-            const AsyncPaginatedDataTable2Demo(),
-            getOptionsForRoute('/asyncpaginated2')),
-        '/datatable': (context) => _getScaffold(context, const DataTableDemo()),
-        '/paginated': (context) =>
-                _getScaffold(context,  PaginatedDataTableDemo(
+            PaginatedDataTable2Demo(
+              tableMargin: const EdgeInsets.all(10),
               tableBorder: Border.all(color: Colors.red),
               borderRadius: BorderRadius.circular(16),
               backgroundColor: Colors.white,
@@ -180,9 +175,15 @@ class MyApp extends StatelessWidget {
                 ),
               ],
               dividerColor: Colors.amber,
-
             ),
-            getOptionsForRoute('/paginated')),
+            getOptionsForRoute('/paginated2')),
+        '/asyncpaginated2': (context) => _getScaffold(
+            context,
+            const AsyncPaginatedDataTable2Demo(),
+            getOptionsForRoute('/asyncpaginated2')),
+        '/datatable': (context) => _getScaffold(context, const DataTableDemo()),
+        '/paginated': (context) =>
+            _getScaffold(context, const PaginatedDataTableDemo()),
         '/datatable2tests': (context) =>
             _getScaffold(context, const DataTable2Tests()),
       },

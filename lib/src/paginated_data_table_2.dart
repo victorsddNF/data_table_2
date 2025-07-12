@@ -6,7 +6,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:async/async.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 
@@ -216,6 +215,14 @@ class PaginatedDataTable2 extends StatefulWidget {
     this.headingRowDecoration,
     this.isVerticalScrollBarVisible,
     this.isHorizontalScrollBarVisible,
+    this.tableBorder,
+    this.borderRadius,
+    this.backgroundColor,
+    this.boxShadow,
+    this.dataRowColor,
+    this.tablePadding,
+    this.tableMargin,
+    this.dividerColor,
   })  : assert(actions == null || (header != null)),
         assert(columns.isNotEmpty),
         assert(sortColumnIndex == null ||
@@ -521,6 +528,26 @@ class PaginatedDataTable2 extends StatefulWidget {
   /// Determines whether the horizontal scroll bar is visible, for iOS takes value from scrollbarTheme when null
   final bool? isHorizontalScrollBarVisible;
 
+  /// Border radius for the table container. Applied when [wrapInCard] is true.
+  final BorderRadiusGeometry? borderRadius;
+
+  /// Background color for the table container. Applied when [wrapInCard] is true.
+  final Color? backgroundColor;
+
+  /// Box shadows for the table container. Applied when [wrapInCard] is true.
+  final List<BoxShadow>? boxShadow;
+
+  /// Color for data rows with state support. This allows dynamic coloring based on row state.
+  final WidgetStateProperty<Color?>? dataRowColor;
+
+  final BoxBorder? tableBorder;
+
+  final EdgeInsetsGeometry? tablePadding;
+
+  final EdgeInsetsGeometry? tableMargin;
+
+  final Color? dividerColor;
+
   @override
   PaginatedDataTable2State createState() => PaginatedDataTable2State();
 }
@@ -794,6 +821,8 @@ class PaginatedDataTable2State extends State<PaginatedDataTable2> {
           headingRowColor: widget.headingRowColor,
           headingRowDecoration: widget.headingRowDecoration,
           headingRowHeight: widget.headingRowHeight,
+          dataRowColor: widget.dataRowColor,
+          dividerColor: widget.dividerColor,
           headingCheckboxTheme: widget.headingCheckboxTheme,
           datarowCheckboxTheme: widget.datarowCheckboxTheme,
           horizontalMargin: widget.horizontalMargin,
@@ -989,7 +1018,20 @@ class PaginatedDataTable2State extends State<PaginatedDataTable2> {
           ],
         );
 
-        if (widget.wrapInCard) t = Card(semanticContainer: false, child: t);
+        if (widget.wrapInCard) {
+          t = Container(
+            margin: widget.tableMargin,
+            padding: widget.tablePadding,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: widget.tableBorder,
+              borderRadius: widget.borderRadius,
+              color: widget.backgroundColor,
+              boxShadow: widget.boxShadow,
+            ),
+            child: t,
+          );
+        }
 
         return t;
       },
