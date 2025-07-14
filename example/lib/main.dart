@@ -175,6 +175,9 @@ class MyApp extends StatelessWidget {
                 ),
               ],
               dividerColor: Colors.amber,
+              columnWidths: {
+                0: 250,
+              },
             ),
             getOptionsForRoute('/paginated2')),
         '/asyncpaginated2': (context) => _getScaffold(

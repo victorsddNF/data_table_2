@@ -27,6 +27,7 @@ class PaginatedDataTable2Demo extends StatefulWidget {
     this.dividerThickness,
     this.tablePadding,
     this.tableMargin,
+    this.columnWidths,
   });
 
   final BoxBorder? tableBorder;
@@ -38,6 +39,7 @@ class PaginatedDataTable2Demo extends StatefulWidget {
   final double? dividerThickness;
   final EdgeInsetsGeometry? tablePadding;
   final EdgeInsetsGeometry? tableMargin;
+  final Map<int, double>? columnWidths;
 
   @override
   PaginatedDataTable2DemoState createState() => PaginatedDataTable2DemoState();
@@ -158,6 +160,7 @@ class PaginatedDataTable2DemoState extends State<PaginatedDataTable2Demo> {
         dividerColor: Colors.amber,
         tablePadding: widget.tablePadding,
         tableMargin: widget.tableMargin,
+        columnWidths: widget.columnWidths,
         header: 
          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           const Text('PaginatedDataTable2'),
@@ -176,8 +179,6 @@ class PaginatedDataTable2DemoState extends State<PaginatedDataTable2Demo> {
         ]),
         rowsPerPage: _rowsPerPage,
         autoRowsToHeight: getCurrentRouteOption(context) == autoRows,
-        minWidth: 800,
-        fit: FlexFit.tight,
         border: TableBorder(
             // top: const BorderSide(color: Colors.black),
             // bottom: BorderSide(color: Colors.grey[300]!),

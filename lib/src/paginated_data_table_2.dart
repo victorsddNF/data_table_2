@@ -223,6 +223,7 @@ class PaginatedDataTable2 extends StatefulWidget {
     this.tablePadding,
     this.tableMargin,
     this.dividerColor,
+    this.columnWidths,
   })  : assert(actions == null || (header != null)),
         assert(columns.isNotEmpty),
         assert(sortColumnIndex == null ||
@@ -548,6 +549,10 @@ class PaginatedDataTable2 extends StatefulWidget {
 
   final Color? dividerColor;
 
+  /// Map of column index to width in pixels. Allows setting specific widths for individual columns.
+  /// Example: {0: 150.0, 2: 200.0} sets the first column to 150px and third column to 200px.
+  final Map<int, double>? columnWidths;
+
   @override
   PaginatedDataTable2State createState() => PaginatedDataTable2State();
 }
@@ -792,6 +797,32 @@ class PaginatedDataTable2State extends State<PaginatedDataTable2> {
     );
   }
 
+  List<DataColumn> _getColumnsWithWidths() {
+    if (widget.columnWidths == null || widget.columnWidths!.isEmpty) {
+      return widget.columns;
+    }
+
+    return widget.columns.asMap().entries.map<DataColumn>((entry) {
+      final int index = entry.key;
+      final DataColumn column = entry.value;
+      
+      // If this column has a specified width, convert to DataColumn2
+      if (widget.columnWidths!.containsKey(index)) {
+        return DataColumn2(
+          label: column.label,
+          tooltip: column.tooltip,
+          numeric: column.numeric,
+          onSort: column.onSort,
+          headingRowAlignment: column.headingRowAlignment,
+          fixedWidth: widget.columnWidths![index],
+        );
+      }
+      
+      // Otherwise, keep as regular DataColumn
+      return column;
+    }).toList();
+  }
+
   Widget _getTable(BoxConstraints constraints) {
     return Flexible(
       fit: widget.fit,
@@ -799,7 +830,7 @@ class PaginatedDataTable2State extends State<PaginatedDataTable2> {
         constraints: BoxConstraints(minWidth: constraints.minWidth),
         child: DataTable2(
           key: _tableKey,
-          columns: widget.columns,
+          columns: _getColumnsWithWidths(),
           sortColumnIndex: widget.sortColumnIndex,
           sortAscending: widget.sortAscending,
           sortArrowIcon: widget.sortArrowIcon,
